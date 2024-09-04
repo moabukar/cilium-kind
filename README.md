@@ -11,6 +11,10 @@ At the foundation of Cilium is a new Linux kernel technology called eBPF, which 
 ## make sure Docker Desktop & kind are installed on your machine
 
 kind create cluster --config=kind-config.yaml
+
+## OR run
+
+make up
 ```
 
 ## Setup
@@ -307,4 +311,12 @@ kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1
 hubble observe --pod deathstar --protocol http
 hubble observe --pod deathstar --verdict DROPPED
 
+```
+
+## Clean up
+
+Take down kind cluster which takes down everything
+
+```bash
+make down
 ```
