@@ -246,3 +246,55 @@ kubectl get nodes -A ## nodes should be ready as now we have a CNI
 ✅ [cilium-test] All 59 tests (608 actions) successful, 41 tests skipped, 1 scenarios skipped.
 
 ```
+
+## Cilium hubble 
+
+```bash
+cilium hubble enable
+
+cilium status
+
+> cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           OK
+ /¯¯\__/¯¯\    Envoy DaemonSet:    OK
+ \__/¯¯\__/    Hubble Relay:       OK
+    \__/       ClusterMesh:        disabled
+
+Deployment             hubble-relay       Desired: 1, Ready: 1/1, Available: 1/1
+Deployment             cilium-operator    Desired: 1, Ready: 1/1, Available: 1/1
+DaemonSet              cilium-envoy       Desired: 4, Ready: 4/4, Available: 4/4
+DaemonSet              cilium             Desired: 4, Ready: 4/4, Available: 4/4
+Containers:            cilium             Running: 4
+                       hubble-relay       Running: 1
+                       cilium-operator    Running: 1
+                       cilium-envoy       Running: 4
+Cluster Pods:          9/9 managed by Cilium
+Helm chart version:    
+Image versions         cilium             quay.io/cilium/cilium:v1.16.1@sha256:0b4a3ab41a4760d86b7fc945b8783747ba27f29dac30dd434d94f2c9e3679f39: 4
+                       hubble-relay       quay.io/cilium/hubble-relay:v1.16.1@sha256:2e1b4c739a676ae187d4c2bfc45c3e865bda2567cc0320a90cb666657fcfcc35: 1
+                       cilium-operator    quay.io/cilium/operator-generic:v1.16.1@sha256:3bc7e7a43bc4a4d8989cb7936c5d96675dd2d02c306adf925ce0a7c35aa27dc4: 1
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.29.7-39a2a56bbd5b3a591f69dbca51d3e30ef97e0e51@sha256:bd5ff8c66716080028f414ec1cb4f7dc66f40d2fb5a009fff187f4a9b90b566b: 4
+```
+
+
+## Hubble
+
+```bash
+cilium hubble port-forward&
+
+kubectl port-forward -n kube-system svc/hubble-relay --address 127.0.0.1 4245:80
+
+hubble status
+hubble observe
+
+```
+
+## Network flows
+
+```bash
+
+kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+
+```
