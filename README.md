@@ -13,5 +13,12 @@ kind create cluster --config=kind-config.yaml
 ## Setup
 
 ```bash
+cilium version --client ## check cilum is installed
+
+cilium install --version 1.16.1
+
+cilium status ## check cilium is installed. The daemonsets should spin up 4 pods running cilium
+
+kubectl get nodes -A ## nodes should be ready as now we have a CNI
 
 ```
