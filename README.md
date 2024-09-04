@@ -295,6 +295,16 @@ hubble observe
 
 ```bash
 
+kubectl apply -f apps/apps.yaml
+
+kubectl exec xwing -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
 kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+
+##
+kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+
+
+hubble observe --pod deathstar --protocol http
+hubble observe --pod deathstar --verdict DROPPED
 
 ```
