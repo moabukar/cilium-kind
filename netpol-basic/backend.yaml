@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: nginx # Nginx image, includes curl
+        image: nginx
         ports:
         - containerPort: 80
 ---
