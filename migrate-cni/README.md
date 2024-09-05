@@ -5,6 +5,9 @@ Migrating from one CNI to another. In this case, migrating from Flannel to Ciliu
 ## Setup
 
 ```bash
+
+make up
+
 kind create cluster --config=kind-config.yaml
 
 
@@ -13,6 +16,8 @@ kubectl apply -n kube-system --server-side -f https://raw.githubusercontent.com/
 kubectl apply --server-side -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
 kubectl wait --for=condition=Ready nodes --all
+
+## nodes should be in a ready state once
 
 ```
 
@@ -58,6 +63,7 @@ kubectl drain --ignore-daemonsets $NODE
 kubectl label node $NODE --overwrite "io.cilium.migration/cilium-default=true"
 
 kubectl -n kube-system delete pod --field-selector spec.nodeName=$NODE -l k8s-app=cilium
+
 kubectl -n kube-system rollout status ds/cilium -w
 
 # if using Docker
@@ -65,6 +71,7 @@ docker restart $NODE
 
 cilium status --wait
 kubectl get -o wide node $NODE
+
 kubectl -n kube-system run --attach --rm --restart=Never verify-network \
   --overrides='{"spec": {"nodeName": "'$NODE'", "tolerations": [{"operator": "Exists"}]}}' \
   --image ghcr.io/nicolaka/netshoot:v0.8 -- /bin/bash -c 'ip -br addr && curl -s -k https://$KUBERNETES_SERVICE_HOST/healthz && echo'
