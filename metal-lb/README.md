@@ -59,6 +59,8 @@ sudo brew services start chipmk/tap/docker-mac-net-connect
 sudo brew services list
 sudo brew services info docker-mac-net-connect
 
+sudo brew services start docker-mac-net-connect
+sudo brew services stop docker-mac-net-connect
 
 netstat -rnf inet | grep 10.33.33.1
 

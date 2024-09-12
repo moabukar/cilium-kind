@@ -40,3 +40,9 @@ spec:
   ipAddressPools:
   - kube-services
 EOF
+
+kubectl create deploy nginx --image=nginx
+kubectl expose deploy nginx --port=80 --type LoadBalancer
+
+kubectl create deploy nginx2 --image=nginx
+kubectl expose deploy nginx2 --port=80 --type LoadBalancer
